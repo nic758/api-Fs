@@ -29,6 +29,8 @@ namespace backend_test.FS
                     var newpath = Helper.SubArray(words, 1, words.Length - 1);
                     return e.ListFsEntry(Strings.Join(newpath, "/"));
                 }
+
+                throw new Exception("not found");
             }
 
             return Files.Values.ToList();
