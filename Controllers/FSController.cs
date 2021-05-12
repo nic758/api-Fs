@@ -10,29 +10,47 @@ using Microsoft.Extensions.Logging;
 namespace backend_test.Controllers
 {
     [ApiController]
-    [Route("home")]
+    [Route("")]
     public class FSController : ControllerBase
     {
         private readonly ILogger<FSController> _logger;
-        private readonly FileSystem _fileSystem;
-        public FSController(ILogger<FSController> logger, FileSystem fileSystem)
+        private readonly Directory _root;
+
+        public FSController(ILogger<FSController> logger, Directory root)
         {
             _logger = logger;
-            _fileSystem = fileSystem;
+            _root = root;
         }
 
         [HttpGet]
-        //TODO: return the list of files and directory from the current path.
-        public IEnumerable<string> GetFiles([FromQuery]string p, [FromQuery]List<string> flags)
+        public List<Entry> GetFiles([FromQuery] string p, [FromQuery] List<string> flags)
         {
-            return _fileSystem.ListFsEntry(p);
+            return _root.ListFsEntry(p);
         }
 
         [HttpPost]
-        //TODO: create a FS object.
-        public string CreateFsObject([FromQuery]string p, [FromBody] CreateEntry entry)
+        public Entry CreateFsObject([FromQuery] string p, CreateEntry entry)
         {
-            return _fileSystem.CreateFsEntry(p, entry);
+            return _root.CreateEntry(p, entry);
+        }
+
+
+        [HttpPost("modify")]
+        public Entry ModifyFsObject([FromQuery] string p, CreateEntry entry)
+        {
+            return _root.ModifyEntry(p, entry);
+        }
+
+        [HttpDelete]
+        public Entry DeleteFsObject([FromQuery] string p, CreateEntry entry)
+        {
+            return _root.DeleteEntry(p);
+        }
+
+        [HttpGet("content")]
+        public string GetFsContent([FromQuery] string p)
+        {
+            return _root.GetEntryContent(p);
         }
     }
 }

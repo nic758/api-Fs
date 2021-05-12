@@ -27,7 +27,7 @@ namespace backend_test
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<FileSystem>();
+            services.AddSingleton<Directory>(dir => new Directory("root"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

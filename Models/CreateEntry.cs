@@ -5,7 +5,8 @@ namespace backend_test.Models
     public class CreateEntry
     {
         [Required]
-        public string Name;
-        public string Content;
+        public string Name { get; set; }
+
+        public string Content { get; set; }
     }
 }
